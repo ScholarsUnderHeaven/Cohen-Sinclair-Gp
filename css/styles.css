@@ -16,7 +16,7 @@
 }
 
 html[data-theme="dark"]{
-  --canvas:#22242a; --plateau:rgba(26,28,34,.78);
+  --canvas:#22242a; --plateau:rgba(165,140,100,.78);
   --sh-dark:rgba(0,0,0,.5); --sh-light:rgba(255,255,255,.05);
   --glass-edge:rgba(255,255,255,.10);
   --bevel-lo:rgba(0,0,0,.45);

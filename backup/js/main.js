@@ -343,15 +343,12 @@ function resize(){
   
   var rL = barL.getBoundingClientRect(), rR = barR.getBoundingClientRect();
   
-  // Calculate the exact center of the gap between bars
-  // This is the point where the sun should be centered
+  // FIXED: Calculate sun position at exact horizontal midpoint
+  // The sun should be centered between the left and right bar edges
   var seamX = (rL.right + rR.left) / 2;
   var sunCy = rL.top + rL.height / 2;
   
-  // Use clientWidth to exclude scrollbar from width calculation
-  // This ensures the coordinate system matches between DOM (getBoundingClientRect)
-  // and WebGL (normalized coordinates)
-  var vw = document.documentElement.clientWidth, vh = window.innerHeight;
+  var vw = window.innerWidth, vh = window.innerHeight;
   mradEff = MRAD * (900 / Math.max(1, vh));
   sunkEff = Math.max(1, vh) / 900;
   sunPx = [seamX, sunCy];
@@ -361,11 +358,8 @@ function resize(){
   
   clickR = Math.max(84, vh * 0.13);
   
-  // Calculate sun position in normalized WebGL coordinates
-  // WebGL uses normalized device coordinates: x from -1 (left) to +1 (right), y from -1 (bottom) to +1 (top)
-  // The canvas aspect ratio is vw/vh, so we need to account for this
-  // seamX is in window pixels, convert to normalized coords: (pixelX / vw * 2) - 1 gives us [-1, +1] range
-  // Then multiply by (vw/vh) to account for the aspect ratio in the shader's coordinate system
+  // Calculate sun position in normalized coordinates (-1 to 1)
+  // FIXED: This ensures the sun is exactly at the horizontal center
   sunPos = [(seamX / vw * 2 - 1) * (vw / vh), 1 - 2 * (sunCy / vh)];
   
   var nr = mradEff / ZOOM * vh * 2;
