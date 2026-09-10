@@ -42,6 +42,7 @@ body.ready #nav{opacity:1;}
 .bar{flex:1 1 0;max-width:700px;height:66px;pointer-events:auto;position:relative;
   display:flex;align-items:center;background:var(--plateau);
   -webkit-backdrop-filter:blur(14px) saturate(1.3);backdrop-filter:blur(14px) saturate(1.3);
+  overflow:hidden;
 }
 .bar::before{content:"";position:absolute;inset:0;pointer-events:none;}
 #barL::before{box-shadow:inset 0 1px 0 var(--glass-edge), inset 0 -1px 0 var(--bevel-lo), inset -1px 0 0 var(--glass-edge), inset 1px 0 0 var(--bevel-lo);}
