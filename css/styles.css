@@ -10,9 +10,9 @@
   --sh-dark:rgba(88,82,70,.18); --sh-light:rgba(255,253,246,.8);
   --glass-edge:rgba(255,253,246,.65);
   --bevel-lo:rgba(88,82,70,.08);
-  --ink:#2a2620; --ink-soft:#635a4e;
+  --ink:#2a2620; --ink-soft:#8b7355;
   --logo-inv:0;
-  --blue:#365ea2; --on-accent:#ffffff; --arc-light:rgba(255,255,255,.9);
+  --blue:#8b7355; --on-accent:#ffffff; --arc-light:rgba(255,255,255,.9);
 }
 
 html[data-theme="dark"]{
@@ -22,7 +22,7 @@ html[data-theme="dark"]{
   --bevel-lo:rgba(60,40,25,.45);
   --ink:#f5e8d8; --ink-soft:#c8b092;
   --logo-inv:1;
-  --blue:#a88550; --on-accent:#2c201a; --arc-light:rgba(220,190,150,.15);
+  --blue:#8b7355; --on-accent:#2c201a; --arc-light:rgba(220,190,150,.15);
 }
 
 /* Base Elements */
