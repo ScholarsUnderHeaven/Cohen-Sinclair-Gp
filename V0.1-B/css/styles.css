@@ -55,6 +55,10 @@ body.ready #nav{opacity:1;}
   filter:drop-shadow(-7px 10px 20px var(--sh-dark)) drop-shadow(4px -4px 10px var(--sh-light));}
 #barR{justify-content:flex-end;padding-right:22px;
   filter:drop-shadow(7px 10px 20px var(--sh-dark)) drop-shadow(-4px -4px 10px var(--sh-light));}
+#barL.center{justify-content:center;padding-left:22px;
+  filter:drop-shadow(-7px 10px 20px var(--sh-dark)) drop-shadow(4px -4px 10px var(--sh-light));}
+#barR.center{justify-content:center;padding-right:22px;
+  filter:drop-shadow(7px 10px 20px var(--sh-dark)) drop-shadow(-4px -4px 10px var(--sh-light));}
 
 .sun-gap{flex:0 0 auto;width:calc(var(--sunR,39.375px)*3);pointer-events:none;}
 
