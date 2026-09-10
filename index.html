@@ -10,6 +10,75 @@
 <meta name="description" content="Cohen-Sinclair Gp. — philosophy, cognitive science and political logic, taught at home and in companies.">
 </head>
 <body>
+<div id="color-picker" style="position:fixed;top:10px;right:10px;z-index:1000;background:rgba(255,255,255,0.95);border-radius:12px;padding:16px;box-shadow:0 4px 20px rgba(0,0,0,0.3);max-width:380px;font-family:Poppins,ui-sans-serif,system-ui,sans-serif;font-size:13px;line-height:1.5;">
+  <div style="display:flex;justify-content:space-between;align-items:center;margin-bottom:12px;">
+    <strong style="font-size:14px;">Color Picker</strong>
+    <button onclick="document.getElementById('color-picker').style.display='none'" style="background:none;border:none;cursor:pointer;font-size:18px;line-height:1;">\u00d7</button>
+  </div>
+  <div id="color-categories">
+    <div class="color-category" style="display:flex;flex-direction:column;gap:4px;margin-bottom:8px;">
+      <label style="font-weight:600;font-size:12px;text-transform:uppercase;letter-spacing:.05em;">Canvas</label>
+      <div style="display:flex;gap:6px;">
+        <input type="color" data-prop="canvas" value="#e9e6de" oninput="updateColor(this)" style="width:40px;height:30px;border:none;border-radius:4px;cursor:pointer;">
+        <input type="text" data-prop="canvas" value="#e9e6de" oninput="updateColorFromText(this)" style="width:70px;padding:4px 6px;border:1px solid #ccc;border-radius:4px;font-size:12px;">
+      </div>
+    </div>
+    <div class="color-category" style="display:flex;flex-direction:column;gap:4px;margin-bottom:8px;">
+      <label style="font-weight:600;font-size:12px;text-transform:uppercase;letter-spacing:.05em;">Plateau</label>
+      <div style="display:flex;gap:6px;">
+        <input type="color" data-prop="plateau" value="#e9e6de" oninput="updateColor(this)" style="width:40px;height:30px;border:none;border-radius:4px;cursor:pointer;">
+        <input type="text" data-prop="plateau" value="rgba(226,221,210,0.78)" oninput="updateColorFromText(this)" style="width:120px;padding:4px 6px;border:1px solid #ccc;border-radius:4px;font-size:12px;">
+      </div>
+    </div>
+    <div class="color-category" style="display:flex;flex-direction:column;gap:4px;margin-bottom:8px;">
+      <label style="font-weight:600;font-size:12px;text-transform:uppercase;letter-spacing:.05em;">Ink</label>
+      <div style="display:flex;gap:6px;">
+        <input type="color" data-prop="ink" value="#2a2620" oninput="updateColor(this)" style="width:40px;height:30px;border:none;border-radius:4px;cursor:pointer;">
+        <input type="text" data-prop="ink" value="#2a2620" oninput="updateColorFromText(this)" style="width:70px;padding:4px 6px;border:1px solid #ccc;border-radius:4px;font-size:12px;">
+      </div>
+    </div>
+    <div class="color-category" style="display:flex;flex-direction:column;gap:4px;margin-bottom:8px;">
+      <label style="font-weight:600;font-size:12px;text-transform:uppercase;letter-spacing:.05em;">Accent</label>
+      <div style="display:flex;gap:6px;">
+        <input type="color" data-prop="blue" value="#8b7355" oninput="updateColor(this)" style="width:40px;height:30px;border:none;border-radius:4px;cursor:pointer;">
+        <input type="text" data-prop="blue" value="#8b7355" oninput="updateColorFromText(this)" style="width:70px;padding:4px 6px;border:1px solid #ccc;border-radius:4px;font-size:12px;">
+      </div>
+    </div>
+    <div class="color-category" style="display:flex;flex-direction:column;gap:4px;margin-bottom:8px;">
+      <label style="font-weight:600;font-size:12px;text-transform:uppercase;letter-spacing:.05em;">Shadow Dark</label>
+      <div style="display:flex;gap:6px;">
+        <input type="color" data-prop="sh-dark" value="#585246" oninput="updateColor(this)" style="width:40px;height:30px;border:none;border-radius:4px;cursor:pointer;">
+        <input type="text" data-prop="sh-dark" value="rgba(88,82,70,0.18)" oninput="updateColorFromText(this)" style="width:120px;padding:4px 6px;border:1px solid #ccc;border-radius:4px;font-size:12px;">
+      </div>
+    </div>
+    <div class="color-category" style="display:flex;flex-direction:column;gap:4px;margin-bottom:8px;">
+      <label style="font-weight:600;font-size:12px;text-transform:uppercase;letter-spacing:.05em;">Shadow Light</label>
+      <div style="display:flex;gap:6px;">
+        <input type="color" data-prop="sh-light" value="#fefdf6" oninput="updateColor(this)" style="width:40px;height:30px;border:none;border-radius:4px;cursor:pointer;">
+        <input type="text" data-prop="sh-light" value="rgba(255,253,246,0.8)" oninput="updateColorFromText(this)" style="width:120px;padding:4px 6px;border:1px solid #ccc;border-radius:4px;font-size:12px;">
+      </div>
+    </div>
+    <div class="color-category" style="display:flex;flex-direction:column;gap:4px;margin-bottom:8px;">
+      <label style="font-weight:600;font-size:12px;text-transform:uppercase;letter-spacing:.05em;">Glass Edge</label>
+      <div style="display:flex;gap:6px;">
+        <input type="color" data-prop="glass-edge" value="#fefdf6" oninput="updateColor(this)" style="width:40px;height:30px;border:none;border-radius:4px;cursor:pointer;">
+        <input type="text" data-prop="glass-edge" value="rgba(255,253,246,0.65)" oninput="updateColorFromText(this)" style="width:120px;padding:4px 6px;border:1px solid #ccc;border-radius:4px;font-size:12px;">
+      </div>
+    </div>
+    <div class="color-category" style="display:flex;flex-direction:column;gap:4px;margin-bottom:8px;">
+      <label style="font-weight:600;font-size:12px;text-transform:uppercase;letter-spacing:.05em;">Bevel Low</label>
+      <div style="display:flex;gap:6px;">
+        <input type="color" data-prop="bevel-lo" value="#585246" oninput="updateColor(this)" style="width:40px;height:30px;border:none;border-radius:4px;cursor:pointer;">
+        <input type="text" data-prop="bevel-lo" value="rgba(88,82,70,0.08)" oninput="updateColorFromText(this)" style="width:120px;padding:4px 6px;border:1px solid #ccc;border-radius:4px;font-size:12px;">
+      </div>
+    </div>
+    <div style="display:flex;gap:8px;margin-top:12px;">
+      <button onclick="exportColors('txt')" style="flex:1;padding:8px 12px;background:#8b7355;color:white;border:none;border-radius:6px;cursor:pointer;font-size:12px;font-weight:600;">Export TXT</button>
+      <button onclick="exportColors('json')" style="flex:1;padding:8px 12px;background:#6b6b6b;color:white;border:none;border-radius:6px;cursor:pointer;font-size:12px;font-weight:600;">Export JSON</button>
+      <button onclick="copyColors()" style="flex:1;padding:8px 12px;background:#4a4a4a;color:white;border:none;border-radius:6px;cursor:pointer;font-size:12px;font-weight:600;">Copy</button>
+    </div>
+  </div>
+</div>
 <canvas id="sky"></canvas>
 <header id="nav">
   <div class="bar" id="barL"><svg class="bevel" aria-hidden="true"><path class="edge" d=""/><path class="arc" d=""/></svg><div class="brand"><img class="logo" src="aristotle-logo.png" alt=""><span id="brandName">Cohen-Sinclair Gp.</span></div></div>
@@ -37,5 +106,56 @@
 <div id="errbox"></div>
 <div id="fatal"></div>
 <script src="js/main.js"></script>
+<script>
+function updateColor(input) {
+  var prop = input.dataset.prop;
+  var value = input.value;
+  document.documentElement.style.setProperty('--' + prop, value);
+  var textInput = document.querySelector('input[data-prop="' + prop + '"][type="text"]');
+  if (textInput) textInput.value = value;
+}
+function updateColorFromText(input) {
+  var prop = input.dataset.prop;
+  var value = input.value;
+  document.documentElement.style.setProperty('--' + prop, value);
+  var colorInput = document.querySelector('input[data-prop="' + prop + '"][type="color"]');
+  if (colorInput) colorInput.value = value;
+}
+function getCurrentColors() {
+  var root = document.documentElement;
+  var colors = {};
+  var props = ['canvas','plateau','ink','blue','sh-dark','sh-light','glass-edge','bevel-lo','ink-soft','on-accent','arc-light','logo-inv'];
+  for(var i=0;i<props.length;i++){
+    var prop = props[i];
+    colors[prop] = root.style.getPropertyValue('--' + prop) || getComputedStyle(root).getPropertyValue('--' + prop).trim();
+  }
+  return colors;
+}
+function exportColors(format) {
+  var colors = getCurrentColors();
+  var output, blob, url, a;
+  if (format === 'json') {
+    output = JSON.stringify(colors, null, 2);
+  } else {
+    output = '';
+    for(var k in colors) output += '--' + k + ': ' + colors[k] + ';\n';
+  }
+  blob = new Blob([output], {type: 'text/plain'});
+  url = URL.createObjectURL(blob);
+  a = document.createElement('a');
+  a.href = url;
+  a.download = 'colors.' + format;
+  a.click();
+  URL.revokeObjectURL(url);
+}
+function copyColors() {
+  var colors = getCurrentColors();
+  var text = '';
+  for(var k in colors) text += '--' + k + ': ' + colors[k] + ';\n';
+  navigator.clipboard.writeText(text).then(function() {
+    alert('Colors copied to clipboard!');
+  });
+}
+</script>
 </body>
 </html>
