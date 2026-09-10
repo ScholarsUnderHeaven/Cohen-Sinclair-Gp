@@ -16,13 +16,13 @@
 }
 
 html[data-theme="dark"]{
-  --canvas:#22242a; --plateau:rgba(165,140,100,.78);
-  --sh-dark:rgba(0,0,0,.5); --sh-light:rgba(255,255,255,.05);
-  --glass-edge:rgba(255,255,255,.10);
-  --bevel-lo:rgba(0,0,0,.45);
-  --ink:#edf0f6; --ink-soft:#9aa3b4;
+  --canvas:#2c201a; --plateau:rgba(165,140,100,.78);
+  --sh-dark:rgba(60,40,25,.5); --sh-light:rgba(255,240,220,.05);
+  --glass-edge:rgba(220,190,150,.10);
+  --bevel-lo:rgba(60,40,25,.45);
+  --ink:#f5e8d8; --ink-soft:#c8b092;
   --logo-inv:1;
-  --blue:#6ea3ec; --on-accent:#101216; --arc-light:rgba(255,255,255,.15);
+  --blue:#a88550; --on-accent:#2c201a; --arc-light:rgba(220,190,150,.15);
 }
 
 /* Base Elements */
