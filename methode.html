@@ -1,0 +1,747 @@
+<!DOCTYPE html>
+<html lang="fr" data-theme="light">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<link href="https://fonts.googleapis.com/css2?family=Poppins:wght@400;500;600;700&display=swap" rel="stylesheet">
+<link href="https://fonts.googleapis.com/css2?family=Cinzel:wght@500;600;700&display=swap" rel="stylesheet">
+<title>La méthode — L’Étude Polymathe</title>
+<meta name="description" content="La méthode de L’Étude Polymathe : séances de 30 + 90 minutes deux fois par semaine, rythme hebdomadaire, dix principes pédagogiques.">
+<style>
+  *{box-sizing:border-box;}
+  :root{
+    --canvas:#e9e6de; --plateau:rgba(226,221,210,.78);
+    --sh-dark:rgba(88,82,70,.18); --sh-light:rgba(255,253,246,.8);
+    --glass-edge:rgba(255,253,246,.65);
+    --bevel-lo:rgba(88,82,70,.08);
+    --ink:#2a2620; --ink-soft:#635a4e;
+    --logo-inv:0;
+    --blue:#365ea2; --on-accent:#ffffff; --arc-light:rgba(255,255,255,.9);
+  }
+  html[data-theme="dark"]{
+    --canvas:#22242a; --plateau:rgba(26,28,34,.78);
+    --sh-dark:rgba(0,0,0,.5); --sh-light:rgba(255,255,255,.05);
+    --glass-edge:rgba(255,255,255,.10);
+    --bevel-lo:rgba(0,0,0,.45);
+    --ink:#edf0f6; --ink-soft:#9aa3b4;
+    --logo-inv:1;
+    --blue:#6ea3ec; --on-accent:#101216; --arc-light:rgba(255,255,255,.15);
+  }
+  html,body{margin:0;min-height:100%;overflow-x:hidden;background:var(--canvas);}
+  body{font-family:Poppins,ui-sans-serif,system-ui,"Segoe UI",Helvetica,Arial,sans-serif;
+    background:var(--canvas);color:var(--ink);}
+  #sky{position:fixed;inset:0;width:100%;height:100%;display:block;opacity:0;transition:opacity 1.6s ease;}
+  body.ready #sky{opacity:1;}
+  #nav{position:fixed;top:0;left:0;right:0;z-index:5;display:flex;align-items:center;justify-content:center;
+    gap:0;padding:18px 26px 0;pointer-events:none;opacity:0;transition:opacity 1.2s ease .3s;}
+  body.ready #nav{opacity:1;}
+  .bar{flex:1 1 0;max-width:700px;height:66px;pointer-events:auto;position:relative;
+    display:flex;align-items:center;background:var(--plateau);border-radius:999px;
+    -webkit-backdrop-filter:blur(14px) saturate(1.3);backdrop-filter:blur(14px) saturate(1.3);
+}
+  .bar::before{content:"";position:absolute;inset:0;pointer-events:none;}
+  #barL::before{box-shadow:inset 0 1px 0 var(--glass-edge), inset 0 -1px 0 var(--bevel-lo), inset -1px 0 0 var(--glass-edge), inset 1px 0 0 var(--bevel-lo);}
+  #barR::before{box-shadow:inset 0 1px 0 var(--glass-edge), inset 0 -1px 0 var(--bevel-lo), inset 1px 0 0 var(--glass-edge), inset -1px 0 0 var(--bevel-lo);}
+  .bevel{position:absolute;inset:0;width:100%;height:100%;pointer-events:none;overflow:visible;}
+  .bevel .edge{fill:none;stroke:var(--glass-edge);stroke-width:2;}
+  .bevel .arc{fill:none;stroke:var(--arc-light);stroke-width:3;}
+  #barL{justify-content:center;padding-left:22px;
+    filter:drop-shadow(-7px 10px 20px var(--sh-dark)) drop-shadow(4px -4px 10px var(--sh-light));}
+  #barR{justify-content:center;padding-right:22px;
+    filter:drop-shadow(7px 10px 20px var(--sh-dark)) drop-shadow(-4px -4px 10px var(--sh-light));}
+  .sun-gap{flex:0 0 auto;width:calc(var(--sunR,39.375px)*3);pointer-events:none;}
+  .brand{display:flex;align-items:center;gap:12px;min-width:0;}
+  .logo{height:36px;width:auto;display:block;filter:invert(var(--logo-inv,0));}
+  #brandName{font-family:Cinzel,'Times New Roman',Georgia,serif;font-weight:600;font-size:15px;
+    letter-spacing:.18em;text-transform:uppercase;color:var(--ink);
+    white-space:nowrap;overflow:hidden;text-overflow:ellipsis;}
+  #errbox{position:fixed;left:16px;bottom:16px;z-index:20;display:none;max-width:min(560px,90vw);
+    background:rgba(20,0,0,.85);border:1px solid rgba(255,82,82,.5);border-radius:10px;
+    padding:10px 12px;font:11px/1.5 ui-monospace,Menlo,Consolas,monospace;color:#ffb4b4;
+    white-space:pre-wrap;word-break:break-word;}
+  #fatal{position:fixed;inset:0;display:none;align-items:center;justify-content:center;text-align:center;
+    color:#fff;font-size:15px;line-height:1.7;padding:24px;z-index:10;background:rgba(0,0,0,.55);}
+  #content{position:relative;z-index:2;pointer-events:none;}
+  .hero-space{height:14vh;height:14svh;pointer-events:none;}
+  .band-wrap{padding:72px 22px 88px;display:flex;justify-content:center;pointer-events:auto;}
+  .cta-band{max-width:720px;width:100%;text-align:center;background:var(--plateau);
+    border:1px solid var(--glass-edge);border-radius:28px;
+    -webkit-backdrop-filter:blur(16px) saturate(1.25);backdrop-filter:blur(16px) saturate(1.25);
+    box-shadow:5px 6px 14px var(--sh-dark),-4px -4px 10px var(--sh-light), inset 0 1px 0 var(--glass-edge), inset 0 -2px 5px var(--bevel-lo);
+    padding:52px 44px;}
+  .badge{display:inline-block;font-family:Poppins,ui-sans-serif,system-ui,"Segoe UI",Helvetica,Arial,sans-serif;
+    font-weight:600;font-size:11px;letter-spacing:.24em;text-transform:uppercase;color:var(--blue);
+    border:1px solid var(--blue);border-radius:999px;padding:9px 16px 9px 18px;margin-bottom:28px;}
+  .cta-band h1{font-family:Cinzel,'Times New Roman',Georgia,serif;font-weight:700;
+    font-size:clamp(30px,4.6vw,46px);letter-spacing:.05em;color:var(--ink);margin:0 0 18px;}
+  .cta-band p{font-size:16px;line-height:1.75;color:var(--ink);margin:0 auto;max-width:56ch;}
+  .cta-row{display:flex;gap:14px;justify-content:center;flex-wrap:wrap;margin:32px 0 28px;}
+  .btn-primary{display:inline-block;background:var(--blue);color:var(--on-accent);
+    font-family:Poppins,ui-sans-serif,system-ui,"Segoe UI",Helvetica,Arial,sans-serif;
+    font-weight:600;font-size:14px;letter-spacing:.05em;text-decoration:none;border-radius:999px;
+    padding:16px 30px;box-shadow:0 8px 20px var(--sh-dark), inset 0 1px 0 rgba(255,255,255,.35), inset 0 -3px 6px rgba(0,0,0,.22);
+    transition:transform .25s ease, filter .25s ease;}
+  .btn-primary:hover{transform:translateY(-1px);filter:brightness(1.07);}
+  .btn-secondary{display:inline-block;background:var(--plateau);color:var(--ink);
+    font-family:Poppins,ui-sans-serif,system-ui,"Segoe UI",Helvetica,Arial,sans-serif;
+    font-weight:600;font-size:14px;letter-spacing:.05em;text-decoration:none;border-radius:999px;
+    padding:15px 29px;border:1px solid var(--glass-edge);
+    -webkit-backdrop-filter:blur(12px);backdrop-filter:blur(12px);
+    box-shadow:3px 4px 8px var(--sh-dark),-2px -2px 6px var(--sh-light), inset 0 1px 0 var(--glass-edge), inset 0 -2px 4px var(--bevel-lo);
+    transition:transform .25s ease, filter .25s ease;}
+  .btn-secondary:hover{transform:translateY(-1px);filter:brightness(1.04);}
+  .cta-band .band-small{font-size:12.5px;color:var(--ink-soft);margin:10px auto 0;}
+  .cta-band .band-small a{color:inherit;}
+  .links{display:flex;align-items:center;gap:14px;}
+  .links a{font-family:Poppins,ui-sans-serif,system-ui,"Segoe UI",Helvetica,Arial,sans-serif;
+    font-weight:500;font-size:13.5px;letter-spacing:.07em;color:var(--ink);
+    text-decoration:none;white-space:nowrap;background:var(--plateau);
+    border:1px solid var(--glass-edge);border-radius:999px;padding:9px 18px;
+    box-shadow:3px 4px 8px var(--sh-dark),-2px -3px 6px var(--sh-light), inset 0 1px 0 var(--glass-edge), inset 0 -2px 5px var(--bevel-lo);
+    transition:transform .18s ease,box-shadow .18s ease,color .25s ease;}
+  .links a:hover{color:var(--blue);transform:translateY(-1px);
+    box-shadow:4px 6px 12px var(--sh-dark),-3px -4px 8px var(--sh-light), inset 0 1px 0 var(--glass-edge), inset 0 -2px 5px var(--bevel-lo);}
+  .links a:active{transform:translateY(0);
+    box-shadow:inset 2px 3px 6px var(--sh-dark), inset -2px -2px 5px var(--sh-light);}
+
+  .mascot{position:relative;width:132px;margin:2px auto 20px;filter:drop-shadow(0 12px 14px var(--sh-dark));}
+  .mascot img{display:block;width:100%;height:auto;}
+  .mascot .back{position:absolute;top:0;left:0;z-index:0;transition:opacity .5s ease;}
+  .mascot .art{position:relative;z-index:1;}
+  .mascot .back.night{opacity:0;}
+  html[data-theme="dark"] .mascot .back.day{opacity:0;}
+  html[data-theme="dark"] .mascot .back.night{opacity:1;}
+  .mascot.wide{width:152px;}
+  .feature-card .mascot{width:104px;margin-bottom:12px;}
+
+  .price-card .mascot{width:76px;margin:2px auto 16px;}
+  .sec>.mascot{width:112px;margin-bottom:24px;}
+  .mascot.widefig{width:196px;}
+  .frieze{max-width:880px;margin:30px auto 0;padding:0 22px;}
+  .frieze .mascot{width:100%;margin:0;}
+  .cta-band h1,.sec h2{text-shadow:0 1px 0 rgba(255,252,244,.55),0 -1px 1px rgba(0,0,0,.20);}
+  html[data-theme="dark"] .cta-band h1,html[data-theme="dark"] .sec h2{text-shadow:0 -1px 0 rgba(255,255,255,.14),0 2px 3px rgba(0,0,0,.55);}
+  .cta-band.split{display:flex;gap:44px;align-items:center;text-align:left;max-width:880px;}
+  .cta-band.split .split-text{flex:1;min-width:0;}
+  .cta-band.split .badge{margin-bottom:20px;}
+  .cta-band.split p{margin:0;}
+  .cta-band.split .mascot{width:190px;margin:0;flex:0 0 auto;}
+  .timeline{display:flex;gap:28px;max-width:720px;margin:26px auto 0;}
+  .timeline .feature-card{flex:1;position:relative;}
+  .timeline .feature-card::before{content:"";position:absolute;top:-27px;left:-14px;right:-14px;height:2px;opacity:.55;
+    background:linear-gradient(90deg,transparent,var(--blue) 25%,var(--blue) 75%,transparent);}
+  .timeline .feature-card:first-child::before{left:50%;right:-14px;background:var(--blue);}
+  .timeline .feature-card:last-child::before{left:-14px;right:50%;background:var(--blue);}
+  .timeline .feature-card::after{content:"";position:absolute;top:-33px;left:50%;width:14px;height:14px;margin-left:-7px;
+    border-radius:50%;background:var(--plateau);border:2px solid var(--blue);}
+  #principes .duo-grid{counter-reset:principle;}
+  #principes .feature-card{counter-increment:principle;}
+  #principes .feature-card h3::before{content:counter(principle,upper-roman) " —  ";color:var(--blue);font-size:15px;letter-spacing:.1em;}
+  @media(max-width:860px){.cta-band.split{flex-direction:column;text-align:center;gap:8px;}
+    .cta-band.split .mascot{width:150px;}.cta-band.split p{margin:0 auto;}
+    .timeline{flex-direction:column;}.timeline .feature-card::before,.timeline .feature-card::after{display:none;}}
+  .site-foot{text-align:center;pointer-events:auto;
+    font-family:Poppins,ui-sans-serif,system-ui,"Segoe UI",Helvetica,Arial,sans-serif;
+    font-weight:500;font-size:12.5px;letter-spacing:.05em;color:var(--ink-soft);padding:26px 20px 34px;}
+  html{scroll-behavior:smooth;}
+  .sec{max-width:1060px;margin:0 auto;padding:40px 22px 8px;scroll-margin-top:104px;pointer-events:auto;}
+  .sec h2{font-family:Cinzel,'Times New Roman',Georgia,serif;font-weight:700;
+    font-size:clamp(24px,3.4vw,34px);letter-spacing:.05em;color:var(--ink);text-align:center;margin:0 0 30px;}
+  .hl{color:var(--blue);font-style:normal;}
+  .hero-stats{display:flex;gap:28px;justify-content:center;margin-top:34px;flex-wrap:wrap;}
+  .hero-stats>div{display:flex;flex-direction:column;gap:6px;min-width:120px;}
+  .hero-stats b{font-family:Cinzel,'Times New Roman',Georgia,serif;font-weight:700;font-size:30px;color:var(--ink);}
+  .hero-stats span{font-size:12px;color:var(--ink-soft);letter-spacing:.04em;}
+  .price-grid,.feat-grid{display:grid;grid-template-columns:repeat(3,1fr);gap:18px;}
+  .price-card,.feature-card,.quote-card,.contact-card{background:var(--plateau);
+    border:1px solid var(--glass-edge);border-radius:22px;
+    -webkit-backdrop-filter:blur(16px) saturate(1.25);backdrop-filter:blur(16px) saturate(1.25);
+    box-shadow:5px 6px 14px var(--sh-dark),-4px -4px 10px var(--sh-light), inset 0 1px 0 var(--glass-edge), inset 0 -2px 5px var(--bevel-lo);}
+  .price-card{padding:30px 26px;display:flex;flex-direction:column;}
+  .price-card.hot{border:1px solid var(--blue);}
+  .price-card .plan{font-family:Poppins,ui-sans-serif,system-ui,sans-serif;font-weight:600;font-size:12px;
+    letter-spacing:.18em;text-transform:uppercase;color:var(--ink-soft);}
+  .price-card .amount{font-family:Cinzel,'Times New Roman',Georgia,serif;font-size:34px;color:var(--ink);margin:12px 0 4px;}
+  .price-card .amount small{font-family:Poppins,ui-sans-serif,system-ui,sans-serif;font-size:12px;color:var(--ink-soft);}
+  .price-card .bill-note{font-size:12.5px;color:var(--ink-soft);margin:0 0 18px;}
+  .price-card ul{list-style:none;margin:0 0 24px;padding:0;display:flex;flex-direction:column;gap:10px;flex:1;}
+  .price-card li{font-size:13.5px;line-height:1.6;color:var(--ink);padding-left:26px;position:relative;}
+  .price-card li::before{content:"\2713";position:absolute;left:2px;color:var(--blue);font-weight:700;}
+  .price-card .btn-primary,.price-card .btn-secondary{text-align:center;}
+  .price-card .pop{align-self:flex-start;margin-bottom:14px;}
+  .feature-card{padding:30px 26px;}
+  .feature-card h3{font-family:Cinzel,'Times New Roman',Georgia,serif;font-size:19px;letter-spacing:.04em;margin:0 0 10px;color:var(--ink);}
+  .feature-card p{font-size:14px;line-height:1.7;color:var(--ink-soft);margin:0;}
+  .narrow{max-width:680px;margin:0 auto;}
+  .quote-card{padding:38px 36px;text-align:center;}
+  .quote-card blockquote{font-family:Cinzel,'Times New Roman',Georgia,serif;
+    font-size:clamp(18px,2.6vw,23px);line-height:1.6;color:var(--ink);margin:0 0 24px;}
+  .who{display:flex;gap:14px;align-items:center;justify-content:center;}
+  .avatar{width:46px;height:46px;border-radius:50%;background:var(--blue);color:var(--on-accent);
+    display:flex;align-items:center;justify-content:center;font-family:Poppins,ui-sans-serif,system-ui,sans-serif;
+    font-weight:600;font-size:14px;letter-spacing:.06em;flex:0 0 auto;}
+  .who>div{display:flex;flex-direction:column;gap:2px;text-align:left;}
+  .who b{font-size:14px;color:var(--ink);}
+  .who span{font-size:12px;color:var(--ink-soft);}
+  .contact-card{padding:36px 34px;}
+  .contact-card h3{font-family:Cinzel,'Times New Roman',Georgia,serif;font-size:21px;margin:0 0 8px;color:var(--ink);}
+  .contact-card .auth-sub{font-size:13.5px;color:var(--ink-soft);margin:0 0 10px;}
+  .info-row{display:flex;gap:14px;padding:13px 0;border-top:1px solid var(--glass-edge);}
+  .info-row>div{display:flex;flex-direction:column;gap:2px;}
+  .info-row b{font-size:14px;color:var(--ink);}
+  .info-row span{font-size:13px;color:var(--ink-soft);line-height:1.6;}
+  .faq-list{display:flex;flex-direction:column;gap:12px;}
+  .accordion-item{background:var(--plateau);border:1px solid var(--glass-edge);border-radius:18px;
+    -webkit-backdrop-filter:blur(14px) saturate(1.3);backdrop-filter:blur(14px) saturate(1.3);
+    box-shadow:3px 4px 8px var(--sh-dark),-2px -2px 6px var(--sh-light);overflow:hidden;}
+  .accordion-head{display:flex;justify-content:space-between;align-items:center;gap:16px;
+    padding:18px 22px;cursor:pointer;font-weight:600;font-size:14.5px;color:var(--ink);}
+  .accordion-head::after{content:"+";font-size:20px;font-weight:400;color:var(--blue);transition:transform .3s ease;flex:0 0 auto;}
+  .accordion-item.open .accordion-head::after{transform:rotate(45deg);}
+  .accordion-body{max-height:0;overflow:hidden;transition:max-height .35s ease;}
+  .accordion-item.open .accordion-body{max-height:300px;}
+  .accordion-body p{font-size:14px;line-height:1.7;color:var(--ink-soft);margin:0;padding:0 22px 20px;}
+  .site-foot a{color:inherit;}
+  .to-top{position:fixed;right:22px;bottom:22px;z-index:6;width:48px;height:48px;border-radius:50%;
+    background:var(--plateau);border:1px solid var(--glass-edge);cursor:pointer;
+    -webkit-backdrop-filter:blur(12px);backdrop-filter:blur(12px);
+    box-shadow:3px 4px 8px var(--sh-dark),-2px -2px 6px var(--sh-light), inset 0 1px 0 var(--glass-edge), inset 0 -2px 4px var(--bevel-lo);
+    color:var(--ink);font-size:20px;line-height:1;display:flex;align-items:center;justify-content:center;
+    opacity:0;visibility:hidden;transition:opacity .3s ease, visibility .3s ease;padding:0;}
+  .to-top.show{opacity:1;visibility:visible;}
+  .duo-grid{display:grid;grid-template-columns:1fr 1fr;gap:18px;max-width:680px;margin:0 auto;}
+  .deep-card{background:var(--plateau);border:1px solid var(--glass-edge);border-radius:22px;
+    -webkit-backdrop-filter:blur(16px) saturate(1.25);backdrop-filter:blur(16px) saturate(1.25);
+    box-shadow:5px 6px 14px var(--sh-dark),-4px -4px 10px var(--sh-light), inset 0 1px 0 var(--glass-edge), inset 0 -2px 5px var(--bevel-lo);
+    padding:30px 28px;text-decoration:none;display:block;transition:transform .25s ease;}
+  .deep-card:hover{transform:translateY(-2px);}
+  .deep-card h3{font-family:Cinzel,'Times New Roman',Georgia,serif;font-size:20px;letter-spacing:.04em;margin:0 0 10px;color:var(--ink);}
+  .deep-card p{font-size:14px;line-height:1.7;color:var(--ink-soft);margin:0 0 14px;}
+  .deep-card .more{font-family:Poppins,ui-sans-serif,system-ui,sans-serif;font-weight:600;font-size:13px;letter-spacing:.06em;color:var(--blue);}
+  .price-card.avoid li::before{content:"\2717";color:var(--ink-soft);}
+  @media(max-width:860px){.price-grid,.feat-grid{grid-template-columns:1fr;}.sec{padding:32px 16px 4px;}.duo-grid{grid-template-columns:1fr;}}
+  @media(max-width:640px){
+    #nav{gap:0;padding:14px 14px 0;}
+    .bar{height:56px;}
+    .logo{height:32px;}
+    .band-wrap{padding:56px 16px 72px;}
+    .cta-band{padding:40px 24px;}
+  }
+  @media(max-width:1023px){
+    #brandName{display:none;}
+  }
+  @media(max-width:839px){
+    .links{display:none;}
+  }
+</style>
+</head>
+<body>
+<canvas id="sky"></canvas>
+<header id="nav">
+  <div class="bar" id="barL"><svg class="bevel" aria-hidden="true"><path class="edge" d=""/><path class="arc" d=""/></svg><div class="brand"><img class="logo" src="aristotle-logo.png" alt=""><span id="brandName">L’Étude Polymathe</span></div></div>
+  <div class="sun-gap" aria-hidden="true"></div>
+  <div class="bar" id="barR"><svg class="bevel" aria-hidden="true"><path class="edge" d=""/><path class="arc" d=""/></svg><nav class="links"><a href="methode.html">La méthode</a><a href="recherche.html">La recherche</a><a href="etude.html#contact">Contact</a></nav></div>
+</header>
+<main id="content">
+  <div class="hero-space"></div>
+  <section class="band-wrap">
+    <div class="cta-band split"><div class="split-text">
+      <span class="badge">Pédagogie</span>
+      <h1>La méthode</h1>
+      <p>Ni école sans enseignement, ni cours magistraux : un entraînement intellectuel délibérément actif, où l’exposition factuelle est subordonnée au raisonnement de l’élève. Le précepteur crée des problèmes, force remémoration et retournement, et rend le raisonnement visible.</p>
+      </div>
+      <div class="mascot king"><img class="back day" src="philosopher-king-back-day.png" alt=""><img class="back night" src="philosopher-king-back-night.png" alt=""><img class="art" src="philosopher-king-art.png" alt="Le Roi-Philosophe, mascotte de L’Étude"></div>
+    </div>
+  </section>
+  <section class="sec" id="seance">
+    <h2>Déroulé d’une séance</h2>
+    <div class="mascot"><img class="back day" src="sophocles-back-day.png" alt=""><img class="back night" src="sophocles-back-night.png" alt=""><img class="art" src="sophocles-art.png" alt="Sophocle — le débat"></div>
+    <div class="timeline">
+      <div class="feature-card"><h3>Récapitulation — 30 minutes</h3><p>L’élève reconstruit la séance précédente sans notes, puis le cadre est posé : définitions, question, règles de l’exercice. La mémoire travaille avant de recevoir.</p></div>
+      <div class="feature-card"><h3>Débat &amp; théorie — 90 minutes</h3><p>Round d’analyse, reconstruction écrite, puis retournement : défendre la position opposée ou attaquer sa propre conclusion. Audit épistémique et débrief explicite.</p></div>
+    </div>
+  </section>
+  <section class="sec" id="rythme">
+    <h2>Rythme hebdomadaire</h2>
+    <div class="mascot widefig"><img class="back day" src="sphynx-clock-back-day.png" alt=""><img class="back night" src="sphynx-clock-back-night.png" alt=""><img class="art" src="sphynx-clock-art.png" alt="Sphinx — le rythme du temps"></div>
+    <div class="contact-card narrow">
+      <div class="info-row"><div><b>Séance 1 — Construire</b><span>Remémoration à froid, formulation de la question, débat principal, contre-argument, bref débrief.</span></div></div>
+      <div class="info-row"><div><b>Séance 2 — Transférer</b><span>Remémoration de la séance 1, problème neuf ou actuel, position opposée, comparaison inter-domaines, audit épistémique.</span></div></div>
+      <div class="info-row"><div><b>Entre les séances</b><span>Lectures seulement si utiles ; aucune mémorisation imposée, aucun exposé à absorber.</span></div></div>
+      <div class="info-row"><div><b>Fin de mois</b><span>Une thèse ou synthèse démontrant le transfert à travers les thèmes du mois.</span></div></div>
+    </div>
+    <div style="height:18px"></div>
+    <div class="contact-card narrow">
+      <h3>90 minutes, deux fois par semaine</h3>
+      <p class="auth-sub">La structure expérimentale de Sartania et al. (2022) : des séances de 90 minutes deux fois par semaine, où les étudiants discutent, formulent des hypothèses et restituent leur raisonnement. Celle de L’Étude : des blocs de débat de 90 minutes, deux fois par semaine.</p>
+    </div>
+  </section>
+  <section class="sec" id="principes">
+    <h2>Les dix principes</h2>
+    <div class="duo-grid">
+      <div class="feature-card"><h3>L’actif avant le passif</h3><p>Discussion, argument, explication : l’exposition est réservée aux lacunes ciblées.</p></div>
+      <div class="feature-card"><h3>Remémorer avant de recevoir</h3><p>L’élève produit une réponse avant toute aide.</p></div>
+      <div class="feature-card"><h3>Espacer les rencontres</h3><p>Deux séances séparées plutôt qu’un bloc unique.</p></div>
+      <div class="feature-card"><h3>Entrelacer intelligemment</h3><p>Comparaison inter-domaines, jamais de mélange aléatoire.</p></div>
+      <div class="feature-card"><h3>Débriefer explicitement</h3><p>Nommer l’opération qui a réussi ou échoué.</p></div>
+      <div class="feature-card"><h3>Raisonner d’abord, vérifier ensuite</h3><p>Phase sans références, puis identification des preuves requises.</p></div>
+      <div class="feature-card"><h3>Retourner les positions</h3><p>Défendre la meilleure version du camp adverse.</p></div>
+      <div class="feature-card"><h3>Problèmes vivants</h3><p>L’actualité politique et sociale comme matière authentique.</p></div>
+      <div class="feature-card"><h3>Précepteur non dominant</h3><p>L’élève fait l’essentiel du travail cognitif.</p></div>
+      <div class="feature-card"><h3>Mesurer le transfert</h3><p>Appliquer à un problème neuf, pas répéter.</p></div>
+    </div>
+  </section>
+  <section class="sec" id="capacites">
+    <h2>Ce que l’élève apprend</h2>
+    <div class="mascot"><img class="back day" src="dickens-back-day.png" alt=""><img class="back night" src="dickens-back-night.png" alt=""><img class="art" src="dickens-art.png" alt="Dickens — lire les caractères"></div>
+    <div class="price-card narrow">
+      <ul>
+        <li>Formuler une proposition précise et définir ses termes.</li>
+        <li>Construire un argument, des prémisses à la conclusion.</li>
+        <li>Repérer les présupposés cachés et les prémisses manquantes.</li>
+        <li>Distinguer faits, inférences, interprétations et jugements de valeur.</li>
+        <li>Produire contre-arguments et réfutations.</li>
+        <li>Changer de position quand l’argument l’exige.</li>
+        <li>Raisonner sous pression et en information incomplète.</li>
+        <li>Comparer des explications rivales plutôt que défendre une conclusion préférée.</li>
+        <li>Contredire sans confondre critique d’un argument et critique d’une personne.</li>
+        <li>Reconnaître l’incertitude et ce qui exige vérification.</li>
+        <li>Réfléchir après coup aux succès et aux échecs du raisonnement.</li>
+      </ul>
+    </div>
+  </section>
+  <section class="sec" id="precepteur">
+    <h2>Le rôle du précepteur</h2>
+    <div class="mascot"><img class="back day" src="caesar-back-day.png" alt=""><img class="back night" src="caesar-back-night.png" alt=""><img class="art" src="caesar-art.png" alt="César — l’autorité"></div>
+    <div class="duo-grid">
+      <div class="price-card"><div class="plan">Il fait</div>
+        <ul>
+          <li>Poser des questions qui exposent le raisonnement.</li>
+          <li>Contester prémisses et définitions.</li>
+          <li>Exiger défense puis retournement des positions.</li>
+          <li>Montrer l’exemple du désaccord courtois.</li>
+          <li>Évaluer le raisonnement et l’honnêteté intellectuelle.</li>
+          <li>Identifier les affirmations à vérifier.</li>
+          <li>Expliquer brièvement quand un manque conceptuel bloque.</li>
+          <li>Utiliser l’actualité comme matière d’analyse.</li>
+        </ul>
+      </div>
+      <div class="price-card avoid"><div class="plan">Il évite</div>
+        <ul>
+          <li>Débiter de longs exposés magistraux.</li>
+          <li>Corriger aussitôt chaque erreur factuelle mineure.</li>
+          <li>Récompenser l’accord avec lui.</li>
+          <li>Laisser le désaccord devenir personnel.</li>
+          <li>Sanctionner un changement d’avis.</li>
+          <li>Tenir des assertions sans appui pour des faits établis.</li>
+          <li>Devenir la source permanente des réponses.</li>
+          <li>Faire de la persuasion politique le but de la séance.</li>
+        </ul>
+      </div>
+    </div>
+  </section>
+<footer class="site-foot"><div>© 2026 Cohen-Sinclair Gp. · 10 rue de la paix, Paris II</div><div>L’Étude Polymathe — <a href="mailto:etudepolymathe@cohen-sinclair.com">etudepolymathe@cohen-sinclair.com</a></div><div>Co-Sinmorphism™ : design system, patent pending.</div><div><a href="etude.html">← L’Étude Polymathe</a></div></footer>
+</main>
+<button class="to-top" id="toTop" aria-label="Haut de page">↑</button>
+<div id="errbox"></div>
+<div id="fatal"></div>
+<script>
+(function(){
+'use strict';
+/* Living-eclipse site shell. Shading = day-sky v2 fragment (SDF sun at half
+   radius via sun(uv*2), moon radius halved to match, pale skylight ~#DEF7FF).
+   uSunPos puts the sun in the navbar gap; uMoonPos follows an arc of a
+   large circle (R = 3, vertex exactly on the sun): click 1 glides in past
+   the right edge (ease-out landing); click 2 glides out past the left edge
+   (ease-in). R rises automatically on ultra-wide screens so the arc always
+   reaches off-screen. Fade is 1 while the moon is anywhere on screen and
+   only ramps to 0 once it leaves the rendered view — a pure perf cull
+   letting the shader skip all moon math (uniform branch). */
+var MRAD = 0.175, ZOOM = 4.0;
+var mradEff = MRAD, sunkEff = 1;   // sun pinned to navbar px size (MRAD = size at 900px height)
+try{
+  var q = new URLSearchParams(location.search);
+  if(q.has('mrad')) MRAD = parseFloat(q.get('mrad')) || MRAD;
+  if(q.has('zoom')) ZOOM = parseFloat(q.get('zoom')) || ZOOM;
+}catch(e){}
+var FLY_IN = 3800, FLY_OUT = 3800;       // moon flight duration
+
+var cv = document.getElementById('sky');
+var barL = document.getElementById('barL');
+var barR = document.getElementById('barR');
+var bevSvgL = barL.querySelector('.bevel'), bevSvgR = barR.querySelector('.bevel');
+var bevPathL = bevSvgL.querySelector('.edge'), bevPathR = bevSvgR.querySelector('.edge');
+var bevArcL = bevSvgL.querySelector('.arc'), bevArcR = bevSvgR.querySelector('.arc');
+var gl = cv.getContext('webgl', {antialias:true, alpha:false, depth:false, stencil:false})
+      || cv.getContext('experimental-webgl');
+function fatal(html){
+  var n = document.getElementById('fatal');
+  n.innerHTML = html; n.style.display = 'flex';
+}
+if(!gl){
+  fatal('<div><b>WebGL is blocked here.</b><br>Open this page in Chrome, Edge, Safari or Firefox.</div>');
+  return;
+}
+var ctxLost = false;
+cv.addEventListener('webglcontextlost', function(e){
+  e.preventDefault(); ctxLost = true;
+  fatal('<div><b>Graphics context was lost.</b><br>Click anywhere to reload.</div>');
+});
+cv.addEventListener('webglcontextrestored', function(){ window.location.reload(); });
+window.addEventListener('click', function(){ if(ctxLost) window.location.reload(); });
+
+var FRAG = [
+  'precision highp float;',
+  'uniform vec3 iResolution;',
+  'uniform float uMrad;',
+  'uniform float uZoom;',
+  'uniform vec2 uSunPos;',
+  'uniform vec2 uMoonPos;',
+  'uniform float uMoonFade;',
+  'uniform float uSunK;',
+  '#define USE_BLACKBODY',
+  '#define bias 25. / iResolution.x / uSunK',
+  'vec2 bend(vec2 p, float a) {',
+  '    return vec2(p.x * cos(a) - p.y * sin(a), p.x * sin(a) + p.y * cos(a));',
+  '}',
+  'float smax(float a, float b, float k)',
+  '{',
+  '    float x = exp(k * a);',
+  '    float y = exp(k * b);',
+  '    return (a * x + b * y) / (x + y);',
+  '}',
+  'vec3 blackbody(float i) {',
+  '    float T = 1400.0 + 1400.0 * i;',
+  '    vec3 L = vec3(7.4, 5.6, 4.4);',
+  '    L = pow(L, vec3(5.0)) * (exp(1.43876719683e5 / (T * L)) - 1.0);',
+  '    return 1.0 - exp(-50e7 / L);',
+  '}',
+  'float sun( in vec2 uv ) {',
+  '    float d = 1.0 / length(uv);',
+  '    float i = 5.0;',
+  '#ifndef USE_BLACKBODY',
+  '    d *= 0.8;',
+  '    i = 15.0;',
+  '#endif',
+  '    d = pow(d, i);',
+  '    return d;',
+  '}',
+  'vec2 moonPos() { return uMoonPos; }',
+  'float moon( in vec2 uv ) {',
+  '    float d = length(uv - moonPos()) - uMrad;',
+  '    d = smoothstep(uMrad, uMrad+bias, d);',
+  '    return d;',
+  '}',
+  'float hash21(vec2 p){ p = fract(p*vec2(234.34,435.345)); p += dot(p,p+34.23); return fract(p.x*p.y); }',
+  'vec3 starLayer(vec2 uv, float scale, float thresh){',
+  '    vec2 g = floor(uv*scale);',
+  '    vec2 f = fract(uv*scale);',
+  '    float h = hash21(g);',
+  '    if(h < thresh) return vec3(0.0);',
+  '    vec2 sp = vec2(hash21(g+0.13), hash21(g+0.71));',
+  '    float d = length(f - sp);',
+  '    float tw = 0.85;',
+  '    float m = smoothstep(0.10, 0.0, d) * tw;',
+  '    float bright = smoothstep(thresh, 1.0, h);',
+  '    return vec3(0.75,0.82,1.0) * m * bright;',
+  '}',
+  'float discCover(float d, float r) {',
+  '    if(d >= 2.0*r) return 0.0;',
+  '    if(d <= 0.0) return 1.0;',
+  '    float a = acos(clamp(d/(2.0*r), 0.0, 1.0));',
+  '    float c = (2.0*r*r*a - 0.5*d*sqrt(max(0.0, 4.0*r*r - d*d))) / (3.14159265*r*r);',
+  '    return clamp(c, 0.0, 1.0);',
+  '}',
+  'vec3 atmSky(vec2 s, float sunI, float m) {',
+  '    vec3 vd = normalize(vec3(s.x, s.y + 0.55, 1.4));',
+  '    vec3 sd = normalize(vec3(uSunPos.x, uSunPos.y + 0.55, 1.4));',
+  '    float cosA = dot(vd, sd);',
+  '    float elev = vd.y;',
+  '    float tau = 0.22 + 0.78*pow(1.0 - max(elev, 0.0), 3.0);',
+  '    vec3 sig = vec3(0.10, 0.25, 0.70);',
+  '    vec3 inscat = vec3(1.0) - exp(-tau*3.0*sig);',
+  '    float pr = 0.65 + 0.35*cosA*cosA;',
+  '    float red = (1.0 - sunI)*(1.0 - sunI);',
+  '    vec3 sunTint = vec3(1.0, 1.0 - 0.68*red, 1.0 - 0.90*red);',
+  '    float t = clamp((elev + 0.30)/1.10, 0.0, 1.0);',
+  '    vec3 amb = vec3(0.85, 1.70, 3.40) * (0.45 + 0.55*pow(1.0 - t, 1.2));',
+  '    vec3 col = (inscat * pr * 1.4 + amb) * sunTint * sunI;',
+  '    float ca = max(cosA, 0.0);',
+  '    col += vec3(1.0, 0.82, 0.60) * (pow(ca, 600.0)*2.0 + pow(ca, 32.0)*0.35 + pow(ca, 8.0)*0.12) * sunTint * sunI * m;',
+  '    col += mix(vec3(0.00486, 0.01143, 0.02167), vec3(0.00077, 0.00153, 0.00422), t) * (1.0 - sunI);',
+  '    float ub = 1.0 - smoothstep(-0.8, 0.1, s.y);',
+  '    vec3 uiBG = mix(vec3(1.08192, 0.96843, 0.75402), vec3(0.02167, 0.02350, 0.02918), 1.0 - sunI);',
+  '    col = mix(col, uiBG, ub);',
+  '    return col;',
+  '}',
+  'void mainImage( out vec4 fragColor, in vec2 fragCoord )',
+  '{',
+  '    vec2 s = (2. * fragCoord.xy - iResolution.xy) / iResolution.y;',
+  '    vec2 uv = (s - uSunPos) * uZoom;',
+  '    float _sun = sun(uv * (2.0*uSunK));',
+  '    float _moon = 1.0;',
+  '    float sunI = 1.0;',
+  '    if(uMoonFade > 0.001) {',
+  '        _moon = mix(1.0, moon(uv), uMoonFade);',
+  '        sunI = 1.0 - discCover(length(moonPos()), uMrad) * uMoonFade;',
+  '    }',
+  '    vec3 sunCol = _sun *',
+  '#ifdef USE_BLACKBODY',
+  '        blackbody(smoothstep(0.1, 15., _sun));',
+  '#else',
+  '        vec3(0.886,0.329,0.094);',
+  '#endif',
+  '    vec3 sky = atmSky(s, sunI, _moon);',
+  '    vec3 col = sky + sunCol * _moon;',
+  '    col = (col*(2.51*col+0.03))/(col*(2.43*col+0.59)+0.14);',
+  '    col = pow(col, vec3(1.0 / 2.2));',
+  '    fragColor = vec4(col, 1.0);',
+  '}',
+  'void main(){mainImage(gl_FragColor,gl_FragCoord.xy);gl_FragColor.rgb+=(hash21(gl_FragCoord.xy)-.5)*(1.5/255.);}'
+].join('\n');
+var VERT = 'attribute vec2 p;void main(){gl_Position=vec4(p,0.,1.);}';
+function fail(msg){
+  var el = document.getElementById('errbox');
+  el.style.display = 'block';
+  el.textContent = String(msg || '(no log)').slice(0, 600);
+}
+function sh(type, src){
+  var s = gl.createShader(type);
+  gl.shaderSource(s, src);
+  gl.compileShader(s);
+  if(!gl.getShaderParameter(s, gl.COMPILE_STATUS)){
+    fail((type === gl.VERTEX_SHADER ? 'VERTEX: ' : 'FRAGMENT: ') + gl.getShaderInfoLog(s));
+    return null;
+  }
+  return s;
+}
+var vs = sh(gl.VERTEX_SHADER, VERT), fs = sh(gl.FRAGMENT_SHADER, FRAG);
+if(!vs || !fs) return;
+var prog = gl.createProgram();
+gl.attachShader(prog, vs); gl.attachShader(prog, fs); gl.linkProgram(prog);
+if(!gl.getProgramParameter(prog, gl.LINK_STATUS)){ fail('LINK: ' + gl.getProgramInfoLog(prog)); return; }
+gl.useProgram(prog);
+var buf = gl.createBuffer();
+gl.bindBuffer(gl.ARRAY_BUFFER, buf);
+gl.bufferData(gl.ARRAY_BUFFER, new Float32Array([-1,-1, 3,-1, -1,3]), gl.STATIC_DRAW);
+var loc = gl.getAttribLocation(prog, 'p');
+gl.enableVertexAttribArray(loc);
+gl.vertexAttribPointer(loc, 2, gl.FLOAT, false, 0, 0);
+var uRes = gl.getUniformLocation(prog, 'iResolution');
+var uMrad = gl.getUniformLocation(prog, 'uMrad');
+var uZoom = gl.getUniformLocation(prog, 'uZoom');
+var uSunPos = gl.getUniformLocation(prog, 'uSunPos');
+var uSunk = gl.getUniformLocation(prog, 'uSunK');
+var uMoonPos = gl.getUniformLocation(prog, 'uMoonPos');
+var uMoonFade = gl.getUniformLocation(prog, 'uMoonFade');
+if(!uRes || !uMrad || !uZoom || !uSunPos || !uMoonPos || !uMoonFade || !uSunk){ fail('boot: missing uniform location'); return; }
+if(gl.isContextLost()){ cv.dispatchEvent(new Event('webglcontextlost')); return; }
+gl.disable(gl.DEPTH_TEST);
+gl.disable(gl.BLEND);
+
+/* ---------- eclipse state: click toggles the moon in / out ---------- */
+var moon = [0, 0];
+var fade = 0;
+var anim = null;
+var eclipsed = false;
+var sunPx = [0, 0];
+var clickR = 100;
+function easeIn(k){ return k*k; }
+function easeOut(k){ return 1 - Math.pow(1-k, 3); }
+/* Moon path: an arc of a large circle (R = 3 screen units, raised on
+   ultra-wide screens so the arc always reaches past the side edges) with
+   its vertex exactly on the sun, entered and exited off-screen. xs is
+   screen-space x (edges at +/-aspect); returns orbit units. */
+function pathR(aspect){ return Math.max(3, (aspect + 0.7) / 0.8); }
+function pathEnd(){
+  var a = window.innerWidth/window.innerHeight;
+  return [a + 0.6, pathR(a)];
+}
+function pathOrbit(xs, sunY, r){
+  var ys = sunY - (r - Math.sqrt(Math.max(r*r - xs*xs, 0)));
+  return [xs*ZOOM, (ys - sunY)*ZOOM];
+}
+function discCoverJS(d, r){
+  if(d >= 2*r) return 0;
+  if(d <= 0) return 1;
+  var a = Math.acos(Math.min(1, Math.max(0, d/(2*r))));
+  var c = (2*r*r*a - 0.5*d*Math.sqrt(Math.max(0, 4*r*r - d*d))) / (Math.PI*r*r);
+  return Math.min(1, Math.max(0, c));
+}
+function toggle(){
+  eclipsed = !eclipsed;
+  var pe = pathEnd();
+  anim = {x0: eclipsed ? pe[0] : 0, x1: eclipsed ? 0 : -pe[0], xe: pe[0], r: pe[1], sunY: sunPos[1],
+          t0: performance.now(), dur: eclipsed ? FLY_IN : FLY_OUT, dir: eclipsed ? 'in' : 'out'};
+}
+function overSun(cx, cy){
+  var dx = cx - sunPx[0], dy = cy - sunPx[1];
+  return dx*dx + dy*dy < clickR*clickR;
+}
+cv.addEventListener('click', function(e){ if(overSun(e.clientX, e.clientY)) toggle(); });
+cv.addEventListener('mousemove', function(e){ cv.style.cursor = overSun(e.clientX, e.clientY) ? 'pointer' : 'default'; });
+
+/* Concave cradle: each bar's sun-side end is clipped around a lens of
+   radius 1.5R centered on the sun (R = sun ball = visual moon radius),
+   so the bars hold it with a 0.5R gap past its surface.
+   Case A (lens taller than the bar): arc spans top edge to bottom edge.
+   Case B (lens shorter): the arc bites the end face only. right=0/1. */
+function barPath(W, H, cx, cy, nr, right){
+  function f(n){ return Math.round(n*100)/100; }
+  var br = H/2;
+  var dxT = Math.sqrt(Math.max(nr*nr - cy*cy, 0));
+  var dxB = Math.sqrt(Math.max(nr*nr - (H-cy)*(H-cy), 0));
+  if(!right){
+    if(dxT > 0.5 && dxB > 0.5 && cx - dxT < W - 1 && cx - dxB < W - 1)
+      return 'M'+f(br)+',0 H'+f(cx-dxT)+' A'+f(nr)+','+f(nr)+' 0 0 0 '+f(cx-dxB)+','+f(H)+' H'+f(br)+' A'+f(br)+','+f(br)+' 0 0 1 '+f(br)+',0 Z';
+    var dy = Math.sqrt(Math.max(nr*nr - (cx-W)*(cx-W), 0));
+    if(!(dy > 0.5))
+      return 'M'+f(br)+',0 H'+f(W-br)+' A'+f(br)+','+f(br)+' 0 0 1 '+f(W-br)+','+f(H)+' H'+f(br)+' A'+f(br)+','+f(br)+' 0 0 1 '+f(br)+',0 Z';
+    return 'M'+f(br)+',0 H'+f(W)+' V'+f(cy-dy)+' A'+f(nr)+','+f(nr)+' 0 0 0 '+f(W)+','+f(cy+dy)+' V'+f(H)+' H'+f(br)+' A'+f(br)+','+f(br)+' 0 0 1 '+f(br)+',0 Z';
+  }
+  if(dxT > 0.5 && dxB > 0.5 && cx + dxT > 1 && cx + dxB > 1)
+    return 'M'+f(W-br)+',0 A'+f(br)+','+f(br)+' 0 0 1 '+f(W-br)+','+f(H)+' L'+f(cx+dxB)+','+f(H)+' A'+f(nr)+','+f(nr)+' 0 0 0 '+f(cx+dxT)+',0 Z';
+  var dy2 = Math.sqrt(Math.max(nr*nr - cx*cx, 0));
+  if(!(dy2 > 0.5))
+    return 'M'+f(br)+',0 H'+f(W-br)+' A'+f(br)+','+f(br)+' 0 0 1 '+f(W-br)+','+f(H)+' H'+f(br)+' A'+f(br)+','+f(br)+' 0 0 1 '+f(br)+',0 Z';
+  return 'M'+f(W-br)+',0 A'+f(br)+','+f(br)+' 0 0 1 '+f(W-br)+','+f(H)+' L0,'+f(H)+' L0,'+f(cy+dy2)+' A'+f(nr)+','+f(nr)+' 0 0 0 0,'+f(cy-dy2)+' L0,0 Z';
+}
+/* Sun-side arc only: the concave cradle facing the sun catches its light. */
+function barArc(W, H, cx, cy, nr, right){
+  function f(n){ return Math.round(n*100)/100; }
+  var dxT = Math.sqrt(Math.max(nr*nr - cy*cy, 0));
+  var dxB = Math.sqrt(Math.max(nr*nr - (H-cy)*(H-cy), 0));
+  if(!right){
+    if(dxT > 0.5 && dxB > 0.5 && cx - dxT < W - 1 && cx - dxB < W - 1)
+      return 'M'+f(cx-dxT)+',0 A'+f(nr)+','+f(nr)+' 0 0 0 '+f(cx-dxB)+','+f(H);
+    var dy = Math.sqrt(Math.max(nr*nr - (cx-W)*(cx-W), 0));
+    if(!(dy > 0.5)) return '';
+    return 'M'+f(W)+','+f(cy-dy)+' A'+f(nr)+','+f(nr)+' 0 0 0 '+f(W)+','+f(cy+dy);
+  }
+  if(dxT > 0.5 && dxB > 0.5 && cx + dxT > 1 && cx + dxB > 1)
+    return 'M'+f(cx+dxB)+','+f(H)+' A'+f(nr)+','+f(nr)+' 0 0 0 '+f(cx+dxT)+',0';
+  var dy2 = Math.sqrt(Math.max(nr*nr - cx*cx, 0));
+  if(!(dy2 > 0.5)) return '';
+  return 'M0,'+f(cy+dy2)+' A'+f(nr)+','+f(nr)+' 0 0 0 0,'+f(cy-dy2);
+}
+/* UI-kit theming (neumorphism-kit tokens): the eclipse drives the chrome --
+   day = light kit, totality = dark kit, lerped gradually with the dimming. */
+var THEME_L = {canvas:[233,230,222,1], plateau:[226,221,210,.78], shd:[88,82,70,.18], shl:[255,253,246,.8], edge:[255,253,246,.65], bevlo:[88,82,70,.08], ink:[42,38,32,1], inks:[99,90,78,1], blue:[54,94,162,1], onacc:[255,255,255,1], arc:[255,255,255,.9]};
+var THEME_D = {canvas:[34,36,42,1], plateau:[26,28,34,.78], shd:[0,0,0,.5], shl:[255,255,255,.05], edge:[255,255,255,.10], bevlo:[0,0,0,.45], ink:[237,240,246,1], inks:[154,163,180,1], blue:[110,163,236,1], onacc:[16,18,22,1], arc:[255,255,255,.35]};
+var lastNight = -1;
+function applyTheme(night){
+  night = Math.min(1, Math.max(0, night));
+  if(Math.abs(night - lastNight) < 0.002) return;
+  lastNight = night;
+  var rs = document.documentElement.style, day = 1 - night;
+  function mixc(a, b){
+    return 'rgba(' + Math.round(a[0]*day + b[0]*night) + ',' + Math.round(a[1]*day + b[1]*night) + ',' + Math.round(a[2]*day + b[2]*night) + ',' + (a[3]*day + b[3]*night).toFixed(3) + ')';
+  }
+  rs.setProperty('--canvas', mixc(THEME_L.canvas, THEME_D.canvas));
+  rs.setProperty('--plateau', mixc(THEME_L.plateau, THEME_D.plateau));
+  rs.setProperty('--sh-dark', mixc(THEME_L.shd, THEME_D.shd));
+  rs.setProperty('--sh-light', mixc(THEME_L.shl, THEME_D.shl));
+  rs.setProperty('--glass-edge', mixc(THEME_L.edge, THEME_D.edge));
+  rs.setProperty('--bevel-lo', mixc(THEME_L.bevlo, THEME_D.bevlo));
+  rs.setProperty('--ink', mixc(THEME_L.ink, THEME_D.ink));
+  rs.setProperty('--ink-soft', mixc(THEME_L.inks, THEME_D.inks));
+  rs.setProperty('--logo-inv', night.toFixed(3));
+  rs.setProperty('--blue', mixc(THEME_L.blue, THEME_D.blue));
+  rs.setProperty('--on-accent', mixc(THEME_L.onacc, THEME_D.onacc));
+  var aL = THEME_L.arc, aD = THEME_D.arc;
+  rs.setProperty('--arc-light', 'rgba(' + Math.round(aL[0]*day + aD[0]*night) + ',' + Math.round(aL[1]*day + aD[1]*night) + ',' + Math.round(aL[2]*day + aD[2]*night) + ',' + ((aL[3]*day + aD[3]*night)*day).toFixed(3) + ')');
+  document.documentElement.setAttribute('data-theme', night > 0.5 ? 'dark' : 'light');
+}
+/* ---------- sizing ---------- */
+var dpr = 1, sunPos = [0, 0.8];
+function resize(){
+  if(!window.innerWidth || !window.innerHeight) return;
+  dpr = Math.min(window.devicePixelRatio || 1, 1.75);
+  cv.width = Math.round(window.innerWidth * dpr);
+  cv.height = Math.round(window.innerHeight * dpr);
+  gl.viewport(0, 0, cv.width, cv.height);
+  var rL = barL.getBoundingClientRect(), rR = barR.getBoundingClientRect();
+  var seamX = (rL.right + rR.left)/2, sunCy = rL.top + rL.height/2;
+  var vw = window.innerWidth, vh = window.innerHeight;
+  mradEff = MRAD*(900/Math.max(1, vh)); sunkEff = Math.max(1, vh)/900;
+  sunPx = [seamX, sunCy];
+  document.documentElement.style.setProperty('--sunR', (mradEff/ZOOM*vh).toFixed(2)+'px');
+  clickR = Math.max(84, vh*0.13);
+  sunPos = [(seamX/vw*2 - 1)*(vw/vh), 1 - 2*(sunCy/vh)];
+  var nr = mradEff/ZOOM*vh*2;   // R = sun ball = visual moon radius (2x the MRAD param)
+  var dL = barPath(rL.width, rL.height, seamX - rL.left, sunCy - rL.top, nr, 0);
+  var dR = barPath(rR.width, rR.height, seamX - rR.left, sunCy - rR.top, nr, 1);
+  barL.style.clipPath = 'path("' + dL + '")';
+  barR.style.clipPath = 'path("' + dR + '")';
+  bevSvgL.setAttribute('viewBox', '0 0 ' + rL.width + ' ' + rL.height);
+  bevSvgR.setAttribute('viewBox', '0 0 ' + rR.width + ' ' + rR.height);
+  bevPathL.setAttribute('d', dL);
+  bevPathR.setAttribute('d', dR);
+  bevArcL.setAttribute('d', barArc(rL.width, rL.height, seamX - rL.left, sunCy - rL.top, nr, 0));
+  bevArcR.setAttribute('d', barArc(rR.width, rR.height, seamX - rR.left, sunCy - rR.top, nr, 1));
+  bevSvgL.style.clipPath = 'path("' + dL + '")';
+  bevSvgR.style.clipPath = 'path("' + dR + '")';
+  barL.style.paddingRight = Math.max(18, Math.round(nr - (seamX - rL.right) + 18)) + 'px';
+  barR.style.paddingLeft = Math.max(18, Math.round(nr - (rR.left - seamX) + 18)) + 'px';
+  if(!eclipsed && !anim){ var pe0 = pathEnd(); moon = pathOrbit(pe0[0], sunPos[1], pe0[1]); }
+}
+window.addEventListener('resize', resize);
+resize();
+
+/* ---------- main loop ---------- */
+var t0 = performance.now();
+var lastT = t0;
+function frame(now){
+  var t = (now - t0) / 1000;
+  var dt = Math.min(0.1, (now - lastT)/1000); lastT = now;
+  if(anim){
+    var k = Math.min(1, (now - anim.t0) / anim.dur);
+    var e = anim.dir === 'in' ? easeOut(k) : easeIn(k);
+    moon = pathOrbit(anim.x0 + (anim.x1 - anim.x0) * e, anim.sunY, anim.r);
+    if(k >= 1){
+      if(anim.dir === 'out'){ moon = pathOrbit(anim.xe, anim.sunY, anim.r); fade = 0; }
+      else { moon = [0, 0]; fade = 1; }
+      anim = null;
+    }
+  }
+  /* Moon is fully solid while visible; it only fades once it has left the
+     rendered view (pure perf cull — the shader then skips all moon math). */
+  var aspNow = window.innerWidth/window.innerHeight;
+  var mpx = (moon[0]/ZOOM/aspNow + 1)/2*window.innerWidth;
+  var mpy = (1 - (moon[1]/ZOOM + sunPos[1]))/2*window.innerHeight;
+  var mmrg = mradEff/ZOOM*window.innerHeight + 10;
+  if(mpx > -mmrg && mpx < window.innerWidth+mmrg && mpy > -mmrg && mpy < window.innerHeight+mmrg) fade = 1;
+  else fade = Math.max(0, fade - dt/0.25);
+  gl.uniform3f(uRes, cv.width, cv.height, 1);
+  gl.uniform1f(uMrad, mradEff);
+  gl.uniform1f(uSunk, sunkEff);
+  gl.uniform1f(uZoom, ZOOM);
+  gl.uniform2f(uSunPos, sunPos[0], sunPos[1]);
+  gl.uniform2f(uMoonPos, moon[0], moon[1]);
+  gl.uniform1f(uMoonFade, fade);
+  gl.drawArrays(gl.TRIANGLES, 0, 3);
+  if(!document.body.classList.contains('ready')) document.body.classList.add('ready');
+  var sunI = 1 - discCoverJS(Math.hypot(moon[0], moon[1]), mradEff) * fade;
+  applyTheme(1 - sunI);
+  requestAnimationFrame(frame);
+}
+var accHeads = document.querySelectorAll('.accordion-head');
+for(var ai = 0; ai < accHeads.length; ai++){
+  accHeads[ai].addEventListener('click', function(){
+    var item = this.parentNode, was = item.classList.contains('open');
+    var items = document.querySelectorAll('.accordion-item');
+    for(var aj = 0; aj < items.length; aj++) items[aj].classList.remove('open');
+    if(!was) item.classList.add('open');
+  });
+}
+var toTop = document.getElementById('toTop');
+window.addEventListener('scroll', function(){
+  if(window.scrollY > window.innerHeight) toTop.classList.add('show');
+  else toTop.classList.remove('show');
+}, {passive:true});
+toTop.addEventListener('click', function(){ window.scrollTo({top:0, behavior:'smooth'}); });
+requestAnimationFrame(frame);
+})();
+</script>
+</body>
+</html>
