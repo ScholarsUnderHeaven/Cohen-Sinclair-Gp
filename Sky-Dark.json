@@ -1,0 +1,14 @@
+{
+  "canvas": "#d2cbb7",
+  "plateau": "#292523",
+  "ink": "#ebe0c7",
+  "blue": "#ba9e7d",
+  "sh-dark": "rgba(88,82,70,0.350)",
+  "sh-light": "#272726",
+  "glass-edge": "#2d2c25",
+  "bevel-lo": "#151514",
+  "ink-soft": "rgba(200,184,160,1.000)",
+  "on-accent": "rgba(44,32,26,1.000)",
+  "arc-light": "rgba(200,180,150,0.000)",
+  "logo-inv": "0.999"
+}
